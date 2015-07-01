@@ -574,7 +574,7 @@ describe "LWRP" do
       end
 
       it "sets itself as a provider for a resource of the same name" do
-        found_providers = Chef::Platform::ProviderPriorityMap.instance.list_handlers(node, :lwrp_buck_passer)
+        found_providers = Chef::Platform::ProviderHandlerMap.instance.list(node, :lwrp_buck_passer)
         # we bypass the per-file loading to get the file to load each time,
         # which creates the LWRP class repeatedly. New things get prepended to
         # the list of providers.
@@ -586,7 +586,7 @@ describe "LWRP" do
         let(:lwrp_cookbok_name) { "l_w_r_p" }
 
         it "sets itself as a provider for a resource of the same name" do
-          found_providers = Chef::Platform::ProviderPriorityMap.instance.list_handlers(node, :l_w_r_p_buck_passer)
+          found_providers = Chef::Platform::ProviderHandlerMap.instance.list(node, :l_w_r_p_buck_passer)
           expect(found_providers.size).to eq(1)
           expect(found_providers.last).to eq(get_lwrp_provider(:l_w_r_p_buck_passer))
         end
@@ -597,10 +597,10 @@ describe "LWRP" do
         let(:lwrp_cookbok_name) { "l-w-r-p" }
 
         it "sets itself as a provider for a resource of the same name" do
-          incorrect_providers = Chef::Platform::ProviderPriorityMap.instance.list_handlers(node, :'l-w-r-p_buck_passer')
+          incorrect_providers = Chef::Platform::ProviderHandlerMap.instance.list(node, :'l-w-r-p_buck_passer')
           expect(incorrect_providers).to eq([])
 
-          found_providers = Chef::Platform::ProviderPriorityMap.instance.list_handlers(node, :l_w_r_p_buck_passer)
+          found_providers = Chef::Platform::ProviderHandlerMap.instance.list(node, :l_w_r_p_buck_passer)
           expect(found_providers.first).to eq(get_lwrp_provider(:l_w_r_p_buck_passer))
         end
       end
